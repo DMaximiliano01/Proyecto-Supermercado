@@ -11,42 +11,42 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide() {
+export default function BotonEliminar({ id, eliminarProducto }) {
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
+  const handleAceptar = () => {
+    eliminarProducto(id); // Ejecuta la función pasada por props
     setOpen(false);
   };
 
   return (
-    <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+    <>
+      <Button variant="outlined" color="error" onClick={handleClickOpen}>
         Eliminar
       </Button>
       <Dialog
         open={open}
-        slots={{
-          transition: Transition,
-        }}
+        TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Desea Eliminar?"}</DialogTitle>
+        <DialogTitle>{"¿Desea eliminar este producto?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-          
+            Esta acción no se puede deshacer.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleClose}>Aceptar</Button>
+          <Button color="error" onClick={handleAceptar}>
+            Aceptar
+          </Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }

@@ -6,13 +6,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import { useNavigate } from 'react-router-dom';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AlertDialogSlide() {
+export default function BotonAgregar() {
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -22,31 +24,34 @@ export default function AlertDialogSlide() {
     setOpen(false);
   };
 
+  const handleConfirm = () => {
+    setOpen(false);
+    navigate('/agregarProducto');
+  };
+
   return (
-    <React.Fragment>
+    <>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Agregar Producto.
+        Agregar Producto
       </Button>
       <Dialog
         open={open}
-        slots={{
-          transition: Transition,
-        }}
+        TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Desea Agregar Producto?"}</DialogTitle>
+        <DialogTitle>{"¿Desea agregar un nuevo producto?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-
+            Será dirigido al formulario para ingresar los datos.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>No</Button>
-          <Button onClick={handleClose}>Si</Button>
+          <Button onClick={handleConfirm}>Sí</Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }
